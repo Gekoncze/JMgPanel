@@ -16,9 +16,9 @@ public @Test class VerticalPanelTest {
 
     private @Mandatory Panel create() {
         Panel panel = new Panel();
-        panel.addVertical(new JLabel("Label 1"), 0, 0);
-        panel.addVertical(new JLabel("Label 2"), 0, 0);
-        panel.addVertical(new JLabel("Label 3"), 0, 0);
+        panel.addVertical(new JLabel("Label 1"));
+        panel.addVertical(new JLabel("Label 2"));
+        panel.addVertical(new JLabel("Label 3"));
         return panel;
     }
 }

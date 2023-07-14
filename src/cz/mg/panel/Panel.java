@@ -86,6 +86,10 @@ public @Component class Panel extends JPanel {
         autoRebuild();
     }
 
+    public void addHorizontal(@Mandatory JComponent component) {
+        addHorizontal(component, 0, 0, MIDDLE, BOTH);
+    }
+
     public void addHorizontal(@Mandatory JComponent component, int wx, int wy) {
         addHorizontal(component, wx, wy, MIDDLE, BOTH);
     }
@@ -97,6 +101,10 @@ public @Component class Panel extends JPanel {
         @Mandatory Fill fill
     ) {
         add(component, new Settings(alignment, fill, components.size(), 0, wx, wy, 1, 1));
+    }
+
+    public void addVertical(@Mandatory JComponent component) {
+        addVertical(component, 0, 0, MIDDLE, BOTH);
     }
 
     public void addVertical(@Mandatory JComponent component, int wx, int wy) {

@@ -16,9 +16,9 @@ public @Test class HorizontalPanelTest {
 
     private @Mandatory Panel create() {
         Panel panel = new Panel();
-        panel.addHorizontal(new JLabel("Label 1"), 0, 0);
-        panel.addHorizontal(new JLabel("Label 2"), 0, 0);
-        panel.addHorizontal(new JLabel("Label 3"), 0, 0);
+        panel.addHorizontal(new JLabel("Label 1"));
+        panel.addHorizontal(new JLabel("Label 2"));
+        panel.addHorizontal(new JLabel("Label 3"));
         return panel;
     }
 }
