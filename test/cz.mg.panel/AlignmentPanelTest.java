@@ -28,6 +28,7 @@ public @Test class AlignmentPanelTest {
         panel.add(button("Bottom left", () -> setAlignment(panel, Alignment.BOTTOM_LEFT)), settings(0, 2));
         panel.add(button("Bottom", () -> setAlignment(panel, Alignment.BOTTOM)), settings(1, 2));
         panel.add(button("Bottom right", () -> setAlignment(panel, Alignment.BOTTOM_RIGHT)), settings(2, 2));
+        System.out.println("Number of components in panel: " + panel.getPanelComponents().size());
         return panel;
     }
 

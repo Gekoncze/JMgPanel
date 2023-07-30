@@ -44,6 +44,10 @@ public @Component class Panel extends JPanel {
         rebuild();
     }
 
+    public ArrayList<JComponent> getPanelComponents() {
+        return components;
+    }
+
     public boolean isAutoRebuild() {
         return autoRebuild;
     }
