@@ -2,6 +2,7 @@ package cz.mg.panel;
 
 import cz.mg.annotations.classes.Test;
 import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.panel.settings.RebuildMode;
 
 import javax.swing.*;
 
@@ -16,9 +17,23 @@ public @Test class AutoRebuildPanelTest {
 
     private @Mandatory Panel create() {
         Panel panel = new Panel();
-        panel.addVertical(toggleButton("AutoRebuild", () -> panel.setAutoRebuild(!panel.isAutoRebuild())), 0, 0);
+
+        JComboBox<RebuildMode> rebuildModeComboBox = new JComboBox<>(new DefaultComboBoxModel<>());
+        rebuildModeComboBox.addItem(RebuildMode.MANUAL);
+        rebuildModeComboBox.addItem(RebuildMode.AUTODETECT);
+        rebuildModeComboBox.addItem(RebuildMode.ALWAYS);
+        rebuildModeComboBox.setSelectedItem(panel.getRebuildMode());
+        rebuildModeComboBox.addActionListener(event -> panel.setRebuildMode(
+            rebuildModeComboBox.getItemAt(
+                rebuildModeComboBox.getSelectedIndex()
+            )
+        ));
+
+        panel.addVertical(rebuildModeComboBox, 0, 0);
         panel.addVertical(button("Rebuild", () -> rebuild(panel)), 0, 0);
         panel.addVertical(button("Add", () -> add(panel)), 0, 0);
+
+        panel.rebuild();
         return panel;
     }
 
