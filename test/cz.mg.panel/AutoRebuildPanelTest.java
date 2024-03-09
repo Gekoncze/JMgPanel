@@ -17,32 +17,45 @@ public @Test class AutoRebuildPanelTest {
 
     private @Mandatory Panel create() {
         Panel panel = new Panel();
+        Panel contentPanel = new Panel();
 
         JComboBox<RebuildMode> rebuildModeComboBox = new JComboBox<>(new DefaultComboBoxModel<>());
         rebuildModeComboBox.addItem(RebuildMode.MANUAL);
         rebuildModeComboBox.addItem(RebuildMode.AUTODETECT);
         rebuildModeComboBox.addItem(RebuildMode.ALWAYS);
         rebuildModeComboBox.setSelectedItem(panel.getRebuildMode());
-        rebuildModeComboBox.addActionListener(event -> panel.setRebuildMode(
+        rebuildModeComboBox.addActionListener(event -> contentPanel.setRebuildMode(
             rebuildModeComboBox.getItemAt(
                 rebuildModeComboBox.getSelectedIndex()
             )
         ));
 
         panel.addVertical(rebuildModeComboBox, 0, 0);
-        panel.addVertical(button("Rebuild", () -> rebuild(panel)), 0, 0);
-        panel.addVertical(button("Add", () -> add(panel)), 0, 0);
+        panel.addVertical(button("Rebuild", () -> rebuild(contentPanel)), 0, 0);
+        panel.addVertical(button("Clear", () -> clear(contentPanel)), 0, 0);
+        panel.addVertical(button("Add", () -> add(contentPanel)), 0, 0);
+
+        panel.addVertical(contentPanel);
 
         return panel;
     }
 
     private void rebuild(@Mandatory Panel panel) {
         panel.rebuild();
-        ((JFrame)SwingUtilities.getRoot(panel)).pack();
+        pack(panel);
+    }
+
+    private void clear(@Mandatory Panel panel) {
+        panel.clear();
+        pack(panel);
     }
 
     private void add(@Mandatory Panel panel) {
         panel.addVertical(new JLabel("Label"), 0, 0);
+        pack(panel);
+    }
+
+    private void pack(@Mandatory Panel panel) {
         ((JFrame)SwingUtilities.getRoot(panel)).pack();
     }
 
