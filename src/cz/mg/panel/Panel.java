@@ -2,11 +2,12 @@ package cz.mg.panel;
 
 import cz.mg.annotations.classes.Component;
 import cz.mg.annotations.requirement.Mandatory;
-import cz.mg.annotations.requirement.Optional;
 import cz.mg.panel.settings.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -40,9 +41,22 @@ public @Component class Panel extends JPanel {
         this.margin = margin;
         this.padding = padding;
         this.alignment = alignment;
+        configureAutoRebuildListeners();
         setOpaque(false);
         setBackground(null);
         rebuild();
+    }
+
+    private void configureAutoRebuildListeners() {
+        // workaround because there is no parent changed listener
+        JPanel temporaryParent = new JPanel();
+        temporaryParent.add(this);
+        temporaryParent.addContainerListener(new ContainerAdapter() {
+            @Override
+            public void componentRemoved(ContainerEvent e) {
+                autoRebuild();
+            }
+        });
     }
 
     public ArrayList<JComponent> getPanelComponents() {
@@ -63,7 +77,7 @@ public @Component class Panel extends JPanel {
 
     public void setAlignment(Alignment alignment) {
         this.alignment = alignment;
-        autoRebuild(null);
+        autoRebuild();
     }
 
     public int getMargin() {
@@ -72,7 +86,7 @@ public @Component class Panel extends JPanel {
 
     public void setMargin(int margin) {
         this.margin = margin;
-        autoRebuild(null);
+        autoRebuild();
     }
 
     public int getPadding() {
@@ -81,13 +95,13 @@ public @Component class Panel extends JPanel {
 
     public void setPadding(int padding) {
         this.padding = padding;
-        autoRebuild(null);
+        autoRebuild();
     }
 
     public void add(@Mandatory JComponent component, @Mandatory Settings settings) {
         components.add(component);
         componentSettings.put(component, settings);
-        autoRebuild(component);
+        autoRebuild();
     }
 
     public void addHorizontal(@Mandatory JComponent component) {
@@ -124,18 +138,12 @@ public @Component class Panel extends JPanel {
         add(component, new Settings(alignment, fill, 0, components.size(), wx, wy, 1, 1));
     }
 
-    private void autoRebuild(@Optional JComponent component) {
+    private void autoRebuild() {
         if (rebuildMode == RebuildMode.ALWAYS) {
             rebuild();
         } else if (rebuildMode == RebuildMode.AUTODETECT) {
             if (getParent() != null) {
                 rebuild();
-            }
-        }
-
-        if (component instanceof Panel panel) {
-            if (panel.rebuildMode == RebuildMode.AUTODETECT) {
-                panel.rebuild();
             }
         }
     }

@@ -33,7 +33,6 @@ public @Test class AutoRebuildPanelTest {
         panel.addVertical(button("Rebuild", () -> rebuild(panel)), 0, 0);
         panel.addVertical(button("Add", () -> add(panel)), 0, 0);
 
-        panel.rebuild();
         return panel;
     }
 
@@ -45,13 +44,6 @@ public @Test class AutoRebuildPanelTest {
     private void add(@Mandatory Panel panel) {
         panel.addVertical(new JLabel("Label"), 0, 0);
         ((JFrame)SwingUtilities.getRoot(panel)).pack();
-    }
-
-    private @Mandatory JToggleButton toggleButton(@Mandatory String label, @Mandatory Runnable runnable) {
-        JToggleButton button = new JToggleButton(label);
-        button.setSelected(true);
-        button.addActionListener(event -> runnable.run());
-        return button;
     }
 
     private @Mandatory JButton button(@Mandatory String label, @Mandatory Runnable runnable) {
